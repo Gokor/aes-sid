@@ -3,7 +3,7 @@
 //! Useful for encrypting database primary keys or other 64-bit identifiers with
 //! tamper-detecting ciphertexts small enough to fit in a UUID.
 
-//#![no_std]
+#![no_std]
 
 use block_cipher_trait::generic_array::{typenum::U16, ArrayLength, GenericArray};
 use block_cipher_trait::BlockCipher;
