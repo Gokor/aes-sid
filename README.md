@@ -1,4 +1,4 @@
-# AES-SID: AES-based Synthetic IDs
+# AES-SID: AES-based Synthetic IDs [![Build Status][build-image]][build-link] ![Apache 2.0 + MIT Licensed][license-image] ![MSRV][msrv-image] [![Gitter Chat][gitter-image]][gitter-link]
 
 Authenticated deterministic encryption for 64-bit integers based on the
 AES-CMAC-SIV construction.
@@ -241,17 +241,12 @@ also be interested to hear from potential users in other languages.
 
 Copyright © 2020 iqlusion
 
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
+Licensed under either of:
 
-    https://www.apache.org/licenses/LICENSE-2.0
+ * [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0)
+ * [MIT license](http://opensource.org/licenses/MIT)
 
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
+at your option.
 
 ## Contribution
 
@@ -259,7 +254,16 @@ Unless you explicitly state otherwise, any contribution intentionally
 submitted for inclusion in the work by you shall be licensed as above,
 without any additional terms or conditions.
 
-[//]: # (links)
+[//]: # (badges)
+
+[build-image]: https://github.com/iqlusioninc/aes-sid/workflows/Rust/badge.svg?branch=develop&event=push
+[build-link]: https://github.com/iqlusioninc/aes-sid/actions
+[license-image]: https://img.shields.io/badge/license-Apache2.0/MIT-blue.svg
+[msrv-image]: https://img.shields.io/badge/rustc-1.40+-blue.svg
+[gitter-image]: https://badges.gitter.im/iqlusioninc/community.svg
+[gitter-link]: https://gitter.im/iqlusioninc/community
+
+[//]: # (general links)
 
 [cryptdb]: https://arstechnica.com/information-technology/2015/09/ms-researchers-claim-to-crack-encrypted-database-with-old-simple-trick/
 [snowflake]: https://developer.twitter.com/en/docs/basics/twitter-ids
@@ -272,3 +276,5 @@ without any additional terms or conditions.
 [CMAC]: https://csrc.nist.gov/publications/detail/sp/800-38b/final
 [CTR_DRBG]: https://en.wikipedia.org/wiki/NIST_SP_800-90A#CTR_DRBG
 [RFC 8452 Section 4]: https://tools.ietf.org/html/rfc8452#section-4
+[Apache License, Version 2.0]: https://www.apache.org/licenses/LICENSE-2.0
+[MIT license]: https://opensource.org/licenses/MIT
