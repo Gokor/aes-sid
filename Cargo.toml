@@ -15,6 +15,10 @@ repository = "https://github.com/tarcieri/aes-sid"
 categories = ["cryptography", "no-std"]
 keywords   = ["aes", "id", "encryption"]
 
+[badges]
+codecov = { repository = "iqlusioninc/aes-sid", branch = "develop", service = "github" }
+maintenance = { status = "experimental" }
+
 [dependencies]
 aes = { version = "0.3", optional = true }
 block-cipher-trait = "0.6"
