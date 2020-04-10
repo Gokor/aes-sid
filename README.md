@@ -1,4 +1,4 @@
-# AES-SID: AES-based Synthetic IDs [![Build Status][build-image]][build-link] ![Apache 2.0 + MIT Licensed][license-image] ![MSRV][msrv-image] [![Gitter Chat][gitter-image]][gitter-link]
+# AES-SID: AES-based Synthetic IDs [![Build Status][build-image]][build-link] ![Apache 2.0 + MIT Licensed][license-image] [![Gitter Chat][gitter-image]][gitter-link]
 
 Authenticated deterministic encryption for 64-bit integers based on the
 AES-CMAC-SIV construction.
@@ -259,7 +259,6 @@ without any additional terms or conditions.
 [build-image]: https://github.com/iqlusioninc/aes-sid/workflows/Rust/badge.svg?branch=develop&event=push
 [build-link]: https://github.com/iqlusioninc/aes-sid/actions
 [license-image]: https://img.shields.io/badge/license-Apache2.0/MIT-blue.svg
-[msrv-image]: https://img.shields.io/badge/rustc-1.40+-blue.svg
 [gitter-image]: https://badges.gitter.im/iqlusioninc/community.svg
 [gitter-link]: https://gitter.im/iqlusioninc/community
 

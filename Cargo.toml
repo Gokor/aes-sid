@@ -1,6 +1,6 @@
 [package]
 name    = "aes-sid"
-version = "0.0.0"
+version = "0.1.0"
 description = """
 Authenticated encryption for the 64-bit integer range using techniques from
 the AES-SIV (i.e. AES-CTR + AES-CMAC) construction, with 128-bit ciphertexts.
