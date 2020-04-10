@@ -25,7 +25,12 @@ block-cipher-trait = "0.6"
 cmac = "0.2"
 crypto-mac = { version = "0.7", default-features = false }
 subtle = { version = "2", default-features = false }
+uuid = { version = "0.8", optional = true, default-features = false }
 zeroize = "1"
 
 [features]
 default = ["aes"]
+
+[package.metadata.docs.rs]
+all-features = true
+rustdoc-args = ["--cfg", "docsrs"]

@@ -4,6 +4,10 @@
 //! tamper-detecting ciphertexts small enough to fit in a UUID.
 
 #![no_std]
+#![cfg_attr(docsrs, feature(doc_cfg))]
+#![doc(html_root_url = "https://docs.rs/aes-sid/0.0.0")]
+#![forbid(unsafe_code)]
+#![warn(missing_docs, rust_2018_idioms, intra_doc_link_resolution_failure)]
 
 use block_cipher_trait::generic_array::{typenum::U16, ArrayLength, GenericArray};
 use block_cipher_trait::BlockCipher;
@@ -15,20 +19,24 @@ use zeroize::Zeroize;
 #[cfg(feature = "aes")]
 use aes::{Aes128, Aes256};
 
+#[cfg(feature = "uuid")]
+use uuid::Uuid;
+
 /// Length of the resulting ciphertext in bytes
 pub const CIPHERTEXT_SIZE: usize = 16;
 
 /// Size of the SIV tag in bytes
 pub const IV_SIZE: usize = 8;
 
-/// AES-SID with a 128-bit AES key (AES-128-SID)
+/// AES-SID with a 128-bit AES key (AES-128-CMAC-SID)
 #[cfg(feature = "aes")]
 pub type Aes128Sid = AesSid<Aes128>;
 
-/// AES-SID with a 256-bit AES key (AES-256-SID)
+/// AES-SID with a 256-bit AES key (AES-256-CMAC-SID)
 #[cfg(feature = "aes")]
 pub type Aes256Sid = AesSid<Aes256>;
 
+/// AES-SID: AES-based Synthetic IDs
 pub struct AesSid<C>
 where
     C: BlockCipher<BlockSize = U16> + Clone,
@@ -43,7 +51,7 @@ where
     C: BlockCipher<BlockSize = U16> + Clone,
     C::ParBlocks: ArrayLength<GenericArray<u8, U16>>,
 {
-    /// Create a new AES-SID instance from the given key
+    /// Initialize AES-SID from the given key.
     pub fn new(key: &GenericArray<u8, C::KeySize>) -> Self {
         let keygen_cipher = C::new(key);
 
@@ -78,7 +86,7 @@ where
         result
     }
 
-    /// Encrypt the given 64-bit integer, returning its ciphertext
+    /// Encrypt the given 64-bit integer, returning its ciphertext.
     pub fn encrypt(&self, value: u64) -> [u8; CIPHERTEXT_SIZE] {
         let mut buffer = [0u8; CIPHERTEXT_SIZE];
         buffer[IV_SIZE..].copy_from_slice(&value.to_le_bytes());
@@ -91,8 +99,8 @@ where
         buffer
     }
 
-    /// Decrypt the given ciphertext, returning the original value on success
-    /// or an error if the ciphertext is inauthentic
+    /// Decrypt the given ciphertext, returning the original value if authentic
+    /// or an error if the ciphertext is inauthentic.
     pub fn decrypt(&self, ciphertext: impl TryInto<[u8; CIPHERTEXT_SIZE]>) -> Result<u64, ()> {
         let mut buffer = ciphertext.try_into().map_err(|_| ())?;
         self.apply_keystream(&mut buffer);
@@ -115,6 +123,21 @@ where
 
         buffer.zeroize();
         result
+    }
+
+    /// Encrypt the given 64-bit integer as a [`Uuid`].
+    #[cfg(feature = "uuid")]
+    #[cfg_attr(docsrs, doc(cfg(feature = "uuid")))]
+    pub fn encrypt_to_uuid(&self, value: u64) -> Uuid {
+        Uuid::from_bytes(self.encrypt(value))
+    }
+
+    /// Decrypt the given [`Uuid`] to a `u64` if it is authentic,
+    /// or an error if the [`Uuid`] is inauthentic.
+    #[cfg(feature = "uuid")]
+    #[cfg_attr(docsrs, doc(cfg(feature = "uuid")))]
+    pub fn decrypt_from_uuid(&self, uuid: impl Into<Uuid>) -> Result<u64, ()> {
+        self.decrypt(*uuid.into().as_bytes())
     }
 
     /// Apply the keystream to the given message buffer
@@ -298,5 +321,22 @@ mod tests {
                 assert!(cipher.decrypt(ciphertext).is_err());
             }
         }
+    }
+
+    #[cfg(feature = "uuid")]
+    #[test]
+    fn encrypt_uuid() {
+        let cipher = Aes128Sid::new(&AES_128_SID_KEY_0.into());
+        let uuid = cipher.encrypt_to_uuid(2428095424619);
+        let expected = Uuid::parse_str("a6e325f8-8e50-a99e-44d8-38f8edfdc81f").unwrap();
+        assert_eq!(expected, uuid);
+    }
+
+    #[cfg(feature = "uuid")]
+    #[test]
+    fn decrypt_uuid() {
+        let cipher = Aes128Sid::new(&AES_128_SID_KEY_0.into());
+        let uuid = Uuid::parse_str("a6e325f8-8e50-a99e-44d8-38f8edfdc81f").unwrap();
+        assert_eq!(2428095424619, cipher.decrypt_from_uuid(uuid).unwrap());
     }
 }
