@@ -15,7 +15,7 @@ encryption (i.e. synthetic initialization vectors)
 
 ## Security Warning
 
-<img alt="DANGER: EXPERIMENTAL" src="https://miscreant.io/images/experimental.svg" width="400px" height="50px">
+<img alt="DANGER: EXPERIMENTAL" src="https://storage.googleapis.com/iqlusion-production-web/img/experimental.svg" width="400px" height="50px">
 
 Both the design and Rust implementation of this scheme have received no
 external review. There are properties/limits of this scheme that need to be
